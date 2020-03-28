@@ -16,7 +16,7 @@ class Contour {
     fun set(p: Point) {
         var i = 0
         list.forEach {
-            if (p.x == it.x && p.y == it.y) {
+            if (p == it) {
                 list[i] = p
                 return
             }
