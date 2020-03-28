@@ -18,6 +18,7 @@ import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 import kotlin.math.abs
 import kotlin.math.max
+import kotlin.math.min
 import kotlin.math.roundToInt
 import kotlin.random.Random
 
@@ -133,17 +134,17 @@ class AnalyseFragment(override val layout: Int = R.layout.analyse_fragment) : Su
 
             leftSquares.sortWith(
                 compareBy(
-                    { BitmapAnalyse.getRectPercent(it) },
                     { 100 - abs(it.width() - it.height()) },
-                    { it.minX() }
+                    { it.minX() },
+                    { BitmapAnalyse.getRectPercent(it) }
                 )
             )
 
             rightSquares.sortWith(
                 compareBy(
-                    { BitmapAnalyse.getRectPercent(it) },
                     { 100 - abs(it.width() - it.height()) },
-                    { it.maxX() }
+                    { it.maxX() },
+                    { BitmapAnalyse.getRectPercent(it) }
                 )
             )
 
@@ -227,7 +228,44 @@ class AnalyseFragment(override val layout: Int = R.layout.analyse_fragment) : Su
     }
 
     fun step4() {
+        val dialog = ProgressDialog.show(activity, "Analyse", "Find answers", false, false)
+        Thread {
+            leftSquares.sortBy { it.minY() }
+            rightSquares.sortBy { it.minY() }
 
+            val leftSquare0 = leftSquares[0]
+            val leftSquare1 = leftSquares[1]
+
+            val rightSquare0 = rightSquares[0]
+            val rightSquare1 = rightSquares[1]
+
+            var minX = min(leftSquare0.minX(), leftSquare1.minX()) + max(leftSquare0.width(), leftSquare1.width())
+            var maxX = max(rightSquare0.maxX(), rightSquare1.maxX()) - max(rightSquare0.width(), rightSquare1.width())
+            var minY = min(leftSquare0.minY(), rightSquare0.minY()) + max(leftSquare0.height(), rightSquare0.height())
+            var maxY = max(leftSquare1.maxY(), rightSquare1.maxY()) - max(leftSquare1.height(), rightSquare1.height())
+
+            bitmap = Bitmap.createBitmap(bitmap, minX, minY, maxX - minX + 1, maxY - minY + 1)
+
+            val answers = BitmapAnalyse.scanContours(bitmap)
+
+            answers.forEach { contour ->
+                contour.forEach { point ->
+                    bitmap.setPixel(point.x, point.y, Color.RED)
+                }
+            }
+
+            minX = answers.map { it.minX() }.min()?: 0
+            maxX = answers.map { it.maxX() }.max()?: 0
+            minY = answers.map { it.minY() }.min()?: 0
+            maxY = answers.map { it.maxY() }.max()?: 0
+
+            bitmap = Bitmap.createBitmap(bitmap, minX, minY, maxX - minX + 1, maxY - minY + 1)
+
+            runOnUi {
+                image.setImageBitmap(bitmap)
+                dialog.cancel()
+            }
+        }.start()
     }
 
 }

@@ -24,7 +24,7 @@ class CameraFragment(override val layout: Int = R.layout.camera_fragment) : Supe
         while (updateThreadRunning) {
             try {
                 bitmap = textureView.bitmap
-                //Thread.sleep(10)
+                Thread.sleep(10)
             } catch (e: Exception) {
                 e.printStackTrace()
                 updateThreadRunning = false
