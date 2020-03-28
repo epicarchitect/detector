@@ -69,8 +69,8 @@ class BitmapAnalyse {
             val height = contour.height()
             return contour.size in 12..50
                     && contour.isFirstNearWithLast()
-                    && getRectPercent(contour) >= 80
-                    && abs(width - height) <= 2
+                    && getRectPercent(contour) >= 70
+                    && abs(width - height) <= 3
         }
 
         fun getSquarePercent(contour: Contour, strokeWidth: Int = 1): Float {
@@ -127,7 +127,7 @@ class BitmapAnalyse {
         fun getRotatedPoint(x: Int, y: Int, degrees: Float): Point {
             val radians = degreesToRadians(degrees)
             val newX = x * cos(radians) - y * sin(radians)
-            val newY = x * sin(radians) + y * cos(radians);
+            val newY = x * sin(radians) + y * cos(radians)
             return Point((newX).roundToInt(), (newY).roundToInt())
         }
 

@@ -142,11 +142,11 @@ class AnalyseFragment(override val layout: Int = R.layout.analyse_fragment) : Su
             )
 
             while (leftSquares.size > 5) {
-                leftSquares.removeFirstOrNull()
+                leftSquares.removeFirst()
             }
 
             while (rightSquares.size > 5) {
-                rightSquares.removeFirstOrNull()
+                rightSquares.removeFirst()
             }
 
             leftSquares.forEach { contour ->

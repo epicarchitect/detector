@@ -5,6 +5,7 @@ import com.google.gson.Gson
 import kolmachikhin.alexander.detector.analyse.bitmap.BitmapAnalyse
 import java.nio.file.attribute.AclEntry.newBuilder
 import kotlin.math.abs
+import kotlin.math.max
 
 class Contour {
 

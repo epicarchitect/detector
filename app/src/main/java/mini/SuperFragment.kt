@@ -1,6 +1,7 @@
 package mini
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -77,6 +78,10 @@ abstract class SuperFragment : Fragment() {
 
         onRemoveListeners.forEach { it.invoke() }
         onRemoveListeners.clear()
+    }
+
+    fun log(any: Any) {
+        Log.d(javaClass.simpleName, any.toString())
     }
 
 }
