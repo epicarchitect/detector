@@ -12,7 +12,7 @@
     <ImageView android:id="@+id/buttonAnalyse"
         android:layout_height="60dp"
         android:layout_width="60dp"
-        android:layout_gravity="end|bottom"
+        android:layout_gravity="end|center"
         android:layout_margin="16dp"
         android:background="@drawable/circle"
         android:padding="4dp"

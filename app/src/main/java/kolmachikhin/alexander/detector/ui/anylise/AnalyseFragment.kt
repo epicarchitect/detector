@@ -116,22 +116,6 @@ class AnalyseFragment(override val layout: Int = R.layout.analyse_fragment) : Su
                 }
             }
 
-            leftSquares.sortWith(
-                compareBy(
-                    { it.minX() },
-                    { 100 - abs(it.width() - it.height()) },
-                    { BitmapAnalyse.getRectPercent(it) }
-                )
-            )
-
-            rightSquares.sortWith(
-                compareBy(
-                    { it.maxX() },
-                    { 100 - abs(it.width() - it.height()) },
-                    { BitmapAnalyse.getRectPercent(it) }
-                )
-            )
-
             val leftAverageMinX = leftSquares.map { it.minX() }.average()
             val leftAverageWidth = leftSquares.map { it.width() }.average()
 
@@ -140,6 +124,30 @@ class AnalyseFragment(override val layout: Int = R.layout.analyse_fragment) : Su
 
             leftSquares = leftSquares.filter { it.minX() < leftAverageMinX + leftAverageWidth / 2 } as ArrayList<Contour>
             rightSquares = rightSquares.filter { it.maxX() > rightAverageMaxX - rightAverageWidth / 2 } as ArrayList<Contour>
+
+            leftSquares.sortWith(
+                compareBy(
+                    { 100 - abs(it.width() - it.height()) },
+                    { it.minX() },
+                    { BitmapAnalyse.getRectPercent(it) }
+                )
+            )
+
+            rightSquares.sortWith(
+                compareBy(
+                    { 100 - abs(it.width() - it.height()) },
+                    { it.maxX() },
+                    { BitmapAnalyse.getRectPercent(it) }
+                )
+            )
+
+            while (leftSquares.size > 5) {
+                leftSquares.removeFirstOrNull()
+            }
+
+            while (rightSquares.size > 5) {
+                rightSquares.removeFirstOrNull()
+            }
 
             leftSquares.forEach { contour ->
                 contour.forEach { point ->
