@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <FrameLayout android:id="@+id/cameraContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <ImageView android:id="@+id/leftTargetFrame"
+        android:background="#f00"
+        android:alpha="0.5"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"/>
+
+    <ImageView android:id="@+id/rightTargetFrame"
+        android:background="#f00"
+        android:alpha="0.5"
+        android:layout_gravity="end"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"/>
+
+</FrameLayout>
