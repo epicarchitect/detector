@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.Point
 import android.util.Log
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -16,6 +17,7 @@ import mini.SuperFragment
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 import kotlin.math.abs
+import kotlin.math.max
 import kotlin.math.roundToInt
 import kotlin.random.Random
 
@@ -31,6 +33,7 @@ class AnalyseFragment(override val layout: Int = R.layout.analyse_fragment) : Su
     var clicked1 = false
     var clicked2 = false
     var clicked3 = false
+    var clicked4 = false
     lateinit var bitmap: Bitmap
 
     var leftSquares = ArrayList<Contour>()
@@ -64,6 +67,9 @@ class AnalyseFragment(override val layout: Int = R.layout.analyse_fragment) : Su
             } else if (!clicked3) {
                 clicked3 = true
                 step3()
+            } else if (!clicked4) {
+                clicked4 = true
+                step4()
             }
         }
     }
@@ -127,17 +133,17 @@ class AnalyseFragment(override val layout: Int = R.layout.analyse_fragment) : Su
 
             leftSquares.sortWith(
                 compareBy(
+                    { BitmapAnalyse.getRectPercent(it) },
                     { 100 - abs(it.width() - it.height()) },
-                    { it.minX() },
-                    { BitmapAnalyse.getRectPercent(it) }
+                    { it.minX() }
                 )
             )
 
             rightSquares.sortWith(
                 compareBy(
+                    { BitmapAnalyse.getRectPercent(it) },
                     { 100 - abs(it.width() - it.height()) },
-                    { it.maxX() },
-                    { BitmapAnalyse.getRectPercent(it) }
+                    { it.maxX() }
                 )
             )
 
@@ -206,10 +212,22 @@ class AnalyseFragment(override val layout: Int = R.layout.analyse_fragment) : Su
             }
         }
 
-        bitmap = Bitmap.createBitmap(bitmap, minX, minY, maxX - minX + 1, maxY - minY + 1)
+        leftSquares.forEach {
+            it.offsetX(-minX)
+            it.offsetY(-minY)
+        }
 
+        rightSquares.forEach {
+            it.offsetX(-minX)
+            it.offsetY(-minY)
+        }
+
+        bitmap = Bitmap.createBitmap(bitmap, minX, minY, maxX - minX + 1, maxY - minY + 1)
         image.setImageBitmap(bitmap)
     }
 
+    fun step4() {
+
+    }
 
 }

@@ -73,11 +73,11 @@ class BitmapAnalyse {
                     && abs(width - height) <= 3
         }
 
-        fun getSquarePercent(contour: Contour, strokeWidth: Int = 1): Float {
-            var maxPercent = 0F
+        fun getSquarePercent(contour: Contour, strokeWidth: Int = 1): Double {
+            var maxPercent = 0.0
 
             for (i in 0..180) {
-                val rotatedContour = getRotatedContour(contour, i.toFloat())
+                val rotatedContour = getRotatedContour(contour, i.toDouble())
                 val size = min(rotatedContour.width(), rotatedContour.height())
                 val rect = buildRectContour(rotatedContour.minX(), rotatedContour.minY(), size, size, strokeWidth)
 
@@ -88,7 +88,7 @@ class BitmapAnalyse {
                     }
                 }
 
-                val percent = countExists.toFloat() * 100 / rotatedContour.size
+                val percent = countExists.toDouble() * 100 / rotatedContour.size
 
                 if (percent > maxPercent) {
                     maxPercent = percent
@@ -98,11 +98,11 @@ class BitmapAnalyse {
             return maxPercent
         }
 
-        fun getRectPercent(contour: Contour, strokeWidth: Int = 1): Float {
-            var maxPercent = 0F
+        fun getRectPercent(contour: Contour, strokeWidth: Int = 1): Double {
+            var maxPercent = 0.0
 
             for (i in 0..180) {
-                val rotatedContour = getRotatedContour(contour, i.toFloat())
+                val rotatedContour = getRotatedContour(contour, i.toDouble())
                 val rect = buildRectContour(rotatedContour.minX(), rotatedContour.minY(), rotatedContour.width(), rotatedContour.height(), strokeWidth)
                 var countExists = 0
 
@@ -112,7 +112,7 @@ class BitmapAnalyse {
                     }
                 }
 
-                val percent = countExists.toFloat() * 100 / rotatedContour.size
+                val percent = countExists.toDouble() * 100 / rotatedContour.size
 
                 if (percent > maxPercent) {
                     maxPercent = percent
@@ -122,16 +122,16 @@ class BitmapAnalyse {
             return maxPercent
         }
 
-        fun degreesToRadians(degrees: Float) = degrees * (Math.PI.toFloat() / 180)
+        fun degreesToRadians(degrees: Double) = degrees * (Math.PI.toFloat() / 180)
 
-        fun getRotatedPoint(x: Int, y: Int, degrees: Float): Point {
+        fun getRotatedPoint(x: Int, y: Int, degrees: Double): Point {
             val radians = degreesToRadians(degrees)
             val newX = x * cos(radians) - y * sin(radians)
             val newY = x * sin(radians) + y * cos(radians)
             return Point((newX).roundToInt(), (newY).roundToInt())
         }
 
-        fun getRotatedContour(contour: Contour, degrees: Float): Contour {
+        fun getRotatedContour(contour: Contour, degrees: Double): Contour {
             val offsetX = contour.maxX() - contour.width() / 2
             val offsetY = contour.maxY() - contour.height() / 2
 

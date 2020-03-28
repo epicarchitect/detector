@@ -12,15 +12,10 @@ import mini.SuperFragment
 
 class FinderFragment(override val layout: Int = R.layout.finder_fragment) : SuperFragment() {
 
-    var cropWidth = 0
-    var cropHeight = 0
-
-    var countUpdates = 0
     val camera = CameraFragment()
 
-    var onFindListener: (() -> Unit)? = null
-    var onLostListener: (() -> Unit)? = null
-
+    var cropWidth = 0
+    var cropHeight = 0
     val scale = 4
 
     override fun start() {
@@ -69,14 +64,6 @@ class FinderFragment(override val layout: Int = R.layout.finder_fragment) : Supe
     override fun onStop() {
         camera.removeObserver()
         super.onStop()
-    }
-
-    fun onFind(l: () -> Unit) {
-        onFindListener = l
-    }
-
-    fun onLost(l: () -> Unit) {
-        onLostListener = l
     }
 
 }
