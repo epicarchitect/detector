@@ -300,8 +300,11 @@ class BitmapAnalyse {
         fun getRotatedBitmap(bitmap: Bitmap, degrees: Double): Bitmap {
             val newBitmap = Bitmap.createBitmap(bitmap.width, bitmap.height, bitmap.config)
 
-            bitmap.forEach { x, y ->
+            newBitmap.forEach { x, y ->
                 newBitmap.setPixel(x, y, Color.WHITE)
+            }
+
+            bitmap.forEach { x, y ->
                 try {
                     val p = getRotatedPoint(x, y, degrees)
                     newBitmap.setPixel(p.x, p.y, bitmap.getPixel(x, y))
