@@ -23,8 +23,10 @@ class CameraFragment(override val layout: Int = R.layout.camera_fragment) : Supe
     private val bitmapUpdateThread = Thread {
         while (updateThreadRunning) {
             try {
-                bitmap = textureView.bitmap
-                Thread.sleep(10)
+                textureView.bitmap?.let {
+                    bitmap = it
+                    bitmapUpdateListener?.invoke(it)
+                }
             } catch (e: Exception) {
                 e.printStackTrace()
                 updateThreadRunning = false
@@ -33,13 +35,7 @@ class CameraFragment(override val layout: Int = R.layout.camera_fragment) : Supe
     }
 
     private var bitmapUpdateListener: ((Bitmap) -> Unit)? = null
-    var bitmap: Bitmap? = null
-        set(value) {
-            field = value
-            if (value != null) {
-                bitmapUpdateListener?.invoke(value)
-            }
-        }
+    lateinit var bitmap: Bitmap
 
     override fun start() {
         textureView.layoutParams.width = cameraWidth
@@ -97,7 +93,7 @@ class CameraFragment(override val layout: Int = R.layout.camera_fragment) : Supe
         cameraControl.startFocusAndMetering(action)
     }
 
-    fun observe(l: (Bitmap?) -> Unit) {
+    fun observe(l: (Bitmap) -> Unit) {
         bitmapUpdateListener = l
     }
 

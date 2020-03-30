@@ -1,6 +1,7 @@
 package kolmachikhin.alexander.detector.analyse.bitmap
 
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.Point
 import android.util.Log
 import kolmachikhin.alexander.detector.analyse.Matrix
@@ -284,6 +285,32 @@ class BitmapAnalyse {
             Log.d("test", "before - width: ${b.width}, height: ${b.height}")
             Log.d("test", "after - width: ${bitmap.width}, height: ${bitmap.height}")
             return bitmap
+        }
+
+        fun getBlackPixelsPercent(bitmap: Bitmap): Double {
+            var count = 0
+            bitmap.forEach { x, y ->
+                if (bitmap.isBlack(x, y)) {
+                    count++
+                }
+            }
+            return (count * 100).toDouble() / (bitmap.width * bitmap.height)
+        }
+
+        fun getRotatedBitmap(bitmap: Bitmap, degrees: Double): Bitmap {
+            val newBitmap = Bitmap.createBitmap(bitmap.width, bitmap.height, bitmap.config)
+
+            bitmap.forEach { x, y ->
+                newBitmap.setPixel(x, y, Color.WHITE)
+                try {
+                    val p = getRotatedPoint(x, y, degrees)
+                    newBitmap.setPixel(p.x, p.y, bitmap.getPixel(x, y))
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+
+            return newBitmap
         }
     }
 

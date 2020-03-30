@@ -4,18 +4,18 @@ import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.Matrix
 import android.graphics.Point
-import android.util.Log
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import kolmachikhin.alexander.detector.R
+import kolmachikhin.alexander.detector.analyse.Answer
 import kolmachikhin.alexander.detector.analyse.Contour
 import kolmachikhin.alexander.detector.analyse.bitmap.BitmapAnalyse
 import kotlinx.android.synthetic.main.analyse_fragment.*
 import mini.SuperFragment
 import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
@@ -79,7 +79,7 @@ class AnalyseFragment(override val layout: Int = R.layout.analyse_fragment) : Su
         finderFragment.remove()
         container.addView(image)
 
-        bitmap = finderFragment.camera.bitmap!!
+        bitmap = finderFragment.camera.bitmap
 
         val dialog = ProgressDialog.show(activity, "Analyse", "Prepare image", false, false)
 
@@ -134,17 +134,17 @@ class AnalyseFragment(override val layout: Int = R.layout.analyse_fragment) : Su
 
             leftSquares.sortWith(
                 compareBy(
-                    { 100 - abs(it.width() - it.height()) },
+                    { BitmapAnalyse.getRectPercent(it) },
                     { it.minX() },
-                    { BitmapAnalyse.getRectPercent(it) }
+                    { 100 - abs(it.width() - it.height()) }
                 )
             )
 
             rightSquares.sortWith(
                 compareBy(
-                    { 100 - abs(it.width() - it.height()) },
+                    { BitmapAnalyse.getRectPercent(it) },
                     { it.maxX() },
-                    { BitmapAnalyse.getRectPercent(it) }
+                    { 100 - abs(it.width() - it.height()) }
                 )
             )
 
@@ -239,27 +239,71 @@ class AnalyseFragment(override val layout: Int = R.layout.analyse_fragment) : Su
             val rightSquare0 = rightSquares[0]
             val rightSquare1 = rightSquares[1]
 
-            var minX = min(leftSquare0.minX(), leftSquare1.minX()) + max(leftSquare0.width(), leftSquare1.width())
-            var maxX = max(rightSquare0.maxX(), rightSquare1.maxX()) - max(rightSquare0.width(), rightSquare1.width())
-            var minY = min(leftSquare0.minY(), rightSquare0.minY()) + max(leftSquare0.height(), rightSquare0.height())
-            var maxY = max(leftSquare1.maxY(), rightSquare1.maxY()) - max(leftSquare1.height(), rightSquare1.height())
+            val minX = min(leftSquare0.minX(), leftSquare1.minX()) + max(leftSquare0.width(), leftSquare1.width())
+            val maxX = max(rightSquare0.maxX(), rightSquare1.maxX()) - max(rightSquare0.width(), rightSquare1.width())
+            val minY = min(leftSquare0.minY(), rightSquare0.minY()) + max(leftSquare0.height(), rightSquare0.height())
+            val maxY = max(leftSquare1.maxY(), rightSquare1.maxY()) - max(leftSquare1.height(), rightSquare1.height())
 
+            val angle = BitmapAnalyse.getAngleBetweenPoints(Point(minX, leftSquare0.maxY()), Point(maxX, rightSquare0.maxY()))
             bitmap = Bitmap.createBitmap(bitmap, minX, minY, maxX - minX + 1, maxY - minY + 1)
+            bitmap = BitmapAnalyse.getRotatedBitmap(bitmap, -angle)
 
-            val answers = BitmapAnalyse.scanContours(bitmap)
+            /** ======================================= */
 
-            answers.forEach { contour ->
-                contour.forEach { point ->
-                    bitmap.setPixel(point.x, point.y, Color.RED)
+            val cellWidth = (bitmap.width.toFloat() - 1) / 14
+            val cellHeight = (bitmap.height.toFloat() - 1) / 4
+
+            for (x in 0..14) {
+                for (y in 0..4) {
+                    try {
+                        bitmap.setPixel((x * cellWidth).roundToInt(), (y * cellHeight).roundToInt(), Color.MAGENTA)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
                 }
             }
 
-            minX = answers.map { it.minX() }.min()?: 0
-            maxX = answers.map { it.maxX() }.max()?: 0
-            minY = answers.map { it.minY() }.min()?: 0
-            maxY = answers.map { it.maxY() }.max()?: 0
 
-            bitmap = Bitmap.createBitmap(bitmap, minX, minY, maxX - minX + 1, maxY - minY + 1)
+            val answers = ArrayList<Answer>()
+
+            for (x in 0 until 14) {
+                val startX = (x * cellWidth).roundToInt()
+                val width = (startX + cellWidth).roundToInt() - startX
+
+                var maxPercent = 1.0
+                var maxPercentPosition = -1
+
+                for (y in 0 until 4) {
+                    val startY = (y * cellHeight).roundToInt()
+                    val height = (startY + cellHeight).roundToInt() - startY
+
+                    val squareBitmap = Bitmap.createBitmap(bitmap, startX, startY, width, height)
+
+                    val blackPercent = BitmapAnalyse.getBlackPixelsPercent(squareBitmap)
+
+                    if (blackPercent > maxPercent) {
+                        maxPercent = blackPercent
+                        maxPercentPosition = y
+                    }
+                }
+
+                answers.add(Answer.get(maxPercentPosition))
+            }
+
+            var i = 0
+            answers.forEach {
+                runOnUi {
+                    i++
+                    val tv = TextView(activity)
+                    tv.text = it.toString()
+                    tv.setTextColor(Color.RED)
+                    container.addView(tv)
+                    val params = tv.layoutParams as FrameLayout.LayoutParams
+                    params.setMargins(i * activity.dp(20), activity.dp(150), 0, 0)
+                }
+            }
+
+
 
             runOnUi {
                 image.setImageBitmap(bitmap)
