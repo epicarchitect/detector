@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.graphics.Matrix
 import android.graphics.Point
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -14,7 +13,8 @@ import kolmachikhin.alexander.detector.analyse.Answer
 import kolmachikhin.alexander.detector.analyse.Contour
 import kolmachikhin.alexander.detector.analyse.bitmap.BitmapAnalyse
 import kotlinx.android.synthetic.main.analyse_fragment.*
-import mini.SuperFragment
+import kolmachikhin.alexander.detector.ui.base.BaseFragment
+import kolmachikhin.alexander.detector.ui.extentions.dp
 import kotlin.collections.ArrayList
 import kotlin.math.abs
 import kotlin.math.max
@@ -23,7 +23,7 @@ import kotlin.math.roundToInt
 import kotlin.random.Random
 
 
-class AnalyseFragment(override val layout: Int = R.layout.analyse_fragment) : SuperFragment() {
+class AnalyseFragment(override val layout: Int = R.layout.analyse_fragment) : BaseFragment() {
 
     val finderFragment = FinderFragment()
     lateinit var image: ImageView
@@ -36,6 +36,12 @@ class AnalyseFragment(override val layout: Int = R.layout.analyse_fragment) : Su
     var clicked3 = false
     var clicked4 = false
     lateinit var bitmap: Bitmap
+
+    var onDoneListener: (ArrayList<Answer>) -> Unit = {}
+
+    fun onDone(l: (ArrayList<Answer>) -> Unit) {
+        onDoneListener = l
+    }
 
     var leftSquares = ArrayList<Contour>()
     var rightSquares = ArrayList<Contour>()
@@ -279,46 +285,26 @@ class AnalyseFragment(override val layout: Int = R.layout.analyse_fragment) : Su
                 }
             }
 
-            answers.add(Answer.get(maxPercentPosition))
-        }
-
-        runOnUi {
-            image.setImageBitmap(bitmap)
+            answers.add(Answer[maxPercentPosition])
         }
 
         return answers
     }
 
     fun step4() {
-        //val dialog = ProgressDialog.show(activity, "Analyse", "Find answers", false, false)
-        Thread {
-            leftSquares.sortBy { it.minY() }
-            rightSquares.sortBy { it.minY() }
+        leftSquares.sortBy { it.minY() }
+        rightSquares.sortBy { it.minY() }
 
-            for (row in 0..4) {
-                try {
-                    var i = 0
-                    val answers = getAnswers(row)
-                    answers.forEach {
-                        runOnUi {
-                            i++
-                            val tv = TextView(activity)
-                            tv.text = it.toString()
-                            tv.setTextColor(Color.RED)
-                            container.addView(tv)
-                            val params = tv.layoutParams as FrameLayout.LayoutParams
-                            params.setMargins(i * activity.dp(20), activity.dp(20) * row, 0, 0)
-                        }
-                    }
-                } catch (e: Exception) {}
-                Thread.sleep(5000)
-            }
+        val allAnswers = ArrayList<Answer>()
 
-            runOnUi {
-                image.setImageBitmap(bitmap)
-                //dialog.cancel()
-            }
-        }.start()
+        for (row in 0..4) {
+            try {
+                allAnswers.addAll(getAnswers(row))
+            } catch (e: Exception) {}
+        }
+
+        bitmap.recycle()
+        onDoneListener(allAnswers)
     }
 
 }

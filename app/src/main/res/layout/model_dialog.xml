@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/LinearLayout">
+
+    <androidx.core.widget.NestedScrollView
+        style="@style/ScrollView"
+        android:layout_weight="1">
+
+        <LinearLayout android:id="@+id/innerContainer"
+            style="@style/LinearLayout"/>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <FrameLayout style="@style/FrameLayout"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="4dp">
+
+        <androidx.appcompat.widget.AppCompatButton
+            style="@style/RedBorderlessButton"
+            android:id="@+id/buttonDelete"
+            android:text="@string/delete" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            style="@style/RedBorderlessButton"
+            android:id="@+id/buttonCancel"
+            android:text="@string/cancel" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            style="@style/BlueBorderlessButton"
+            android:id="@+id/buttonEdit"
+            android:layout_gravity="end"
+            android:text="@string/edit" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            style="@style/GreenBorderlessButton"
+            android:id="@+id/buttonSave"
+            android:layout_gravity="end"
+            android:text="@string/save" />
+
+    </FrameLayout>
+
+</LinearLayout>

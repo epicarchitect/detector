@@ -10,19 +10,9 @@
                 android:duration="0"
                 android:valueTo="@dimen/button_elevation_material"
                 android:valueType="floatType"/>
-
-            <objectAnimator android:propertyName="scaleX"
-                android:duration="@integer/button_pressed_animation_duration"
-                android:valueTo="0.95"
-                android:valueType="floatType"/>
-
-            <objectAnimator android:propertyName="scaleY"
-                android:duration="@integer/button_pressed_animation_duration"
-                android:valueTo="0.95"
-                android:valueType="floatType" />
         </set>
     </item>
-    <!-- base state -->
+
     <item android:state_enabled="true">
         <set>
             <objectAnimator android:propertyName="translationZ"
@@ -35,18 +25,9 @@
                 android:duration="0"
                 android:valueTo="@dimen/button_elevation_material"
                 android:valueType="floatType" />
-
-            <objectAnimator android:propertyName="scaleX"
-                android:duration="@integer/button_pressed_animation_duration"
-                android:valueTo="1"
-                android:valueType="floatType" />
-
-            <objectAnimator android:propertyName="scaleY"
-                android:duration="@integer/button_pressed_animation_duration"
-                android:valueTo="1"
-                android:valueType="floatType" />
         </set>
     </item>
+
     <item>
         <set>
             <objectAnimator android:propertyName="translationZ"
@@ -57,16 +38,6 @@
             <objectAnimator android:propertyName="elevation"
                 android:duration="0"
                 android:valueTo="0"
-                android:valueType="floatType"/>
-
-            <objectAnimator android:propertyName="scaleX"
-                android:duration="0"
-                android:valueTo="1"
-                android:valueType="floatType"/>
-
-            <objectAnimator android:propertyName="scaleY"
-                android:duration="0"
-                android:valueTo="1"
                 android:valueType="floatType"/>
         </set>
     </item>

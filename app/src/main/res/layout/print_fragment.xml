@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView style="@style/TextAppearance.AppCompat.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin"
+        android:layout_gravity="center"
+        android:text="@string/answers_black"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        app:srcCompat="@drawable/blank"/>
+
+    <TextView android:id="@+id/tvStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_margin="@dimen/margin"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        style="@style/GreenButton"
+        android:id="@+id/buttonDownload"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/big_margin"
+        android:text="@string/download_blacks_to_phone"/>
+
+</LinearLayout>

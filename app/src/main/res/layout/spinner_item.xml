@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/LinearLayout"
+    android:background="@drawable/spinner_bg"
+    android:padding="@dimen/margin">
+
+    <TextView style="@style/ListItemTitleText"
+        android:id="@+id/tvContent"
+        android:layout_margin="@dimen/small_margin"
+        tools:text="Content"/>
+
+</LinearLayout>

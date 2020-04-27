@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="BorderlessButton">
+        <item name="android:background">@null</item>
+        <item name="android:elevation">0dp</item>
+        <item name="android:stateListAnimator">@animator/on_click</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingStart">@dimen/margin</item>
+        <item name="android:paddingEnd">@dimen/margin</item>
+    </style>
+
+    <style name="AccentBorderlessButton" parent="BorderlessButton">
+        <item name="android:textColor">?attr/colorAccent</item>
+    </style>
+
+    <style name="RedBorderlessButton" parent="BorderlessButton">
+        <item name="android:textColor">@color/red</item>
+    </style>
+
+    <style name="BlueBorderlessButton" parent="BorderlessButton">
+        <item name="android:textColor">@color/blue</item>
+    </style>
+
+    <style name="GreenBorderlessButton" parent="BorderlessButton">
+        <item name="android:textColor">@color/green</item>
+    </style>
+
+    <style name="Button">
+        <item name="android:background">@drawable/block</item>
+        <item name="android:elevation">2dp</item>
+        <item name="android:stateListAnimator">@animator/on_click</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingStart">@dimen/big_margin</item>
+        <item name="android:paddingEnd">@dimen/big_margin</item>
+        <item name="android:textColor">#fefefe</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="AccentButton" parent="Button">
+        <item name="android:background">@drawable/accent_block</item>
+    </style>
+
+    <style name="RedButton" parent="Button">
+        <item name="android:background">@drawable/red_block</item>
+    </style>
+
+    <style name="BlueButton" parent="Button">
+        <item name="android:background">@drawable/blue_block</item>
+    </style>
+
+    <style name="GreenButton" parent="Button">
+        <item name="android:background">@drawable/green_block</item>
+    </style>
+
+</resources>

@@ -1,26 +1,27 @@
 package kolmachikhin.alexander.detector.ui
 
-import android.animation.Animator
-import android.animation.AnimatorInflater
-import android.annotation.SuppressLint
-import android.graphics.Bitmap
-import android.graphics.Color
-import android.util.Log
-import android.view.View
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
-import androidx.core.view.isVisible
 import kolmachikhin.alexander.detector.R
-import kolmachikhin.alexander.detector.ui.anylise.AnalyseFragment
-import kolmachikhin.alexander.detector.ui.camera.CameraFragment
+import kolmachikhin.alexander.detector.ui.pages.print.PrintFragment
+import kolmachikhin.alexander.detector.ui.pages.scanned_tests.ScannedTestsFragment
+import kolmachikhin.alexander.detector.ui.pages.tests.TestsFragment
 import kotlinx.android.synthetic.main.main_fragment.*
-import mini.SuperFragment
-import kotlin.math.roundToInt
+import kolmachikhin.alexander.detector.ui.base.BaseFragment
 
-class MainFragment(override val layout: Int = R.layout.main_fragment) : SuperFragment() {
+class MainFragment(override val layout: Int = R.layout.main_fragment) : BaseFragment() {
 
     override fun start() {
-        addChild(R.id.container, AnalyseFragment())
+        setNavigation()
+        navigation.selectedItemId = R.id.scannedTestsFragment
     }
 
+    fun setNavigation() {
+        navigation.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.testsFragment -> TestsFragment()
+                R.id.scannedTestsFragment -> ScannedTestsFragment()
+                else -> PrintFragment()
+            }.let { replaceChild(R.id.fragmentContainer, it) }
+            true
+        }
+    }
 }

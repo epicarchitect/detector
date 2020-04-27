@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/testsFragment"
+        android:title="@string/tests"
+        android:icon="@drawable/ic_tests"/>
+
+    <item android:id="@+id/scannedTestsFragment"
+        android:title="@string/scanned_tests"
+        android:icon="@drawable/ic_scanned_tests"/>
+
+    <item android:id="@+id/printFragment"
+        android:title="@string/print"
+        android:icon="@drawable/ic_print"/>
+
+</menu>

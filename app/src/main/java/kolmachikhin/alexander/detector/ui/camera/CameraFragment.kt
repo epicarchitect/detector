@@ -7,13 +7,13 @@ import android.util.Size
 import android.view.Surface
 import android.view.ViewGroup
 import androidx.camera.core.*
-import kolmachikhin.alexander.detector.MainActivity
+import kolmachikhin.alexander.detector.ui.MainActivity
 import kolmachikhin.alexander.detector.R
 import kotlinx.android.synthetic.main.camera_fragment.*
-import mini.SuperFragment
+import kolmachikhin.alexander.detector.ui.base.BaseFragment
 
 @SuppressLint("RestrictedApi")
-class CameraFragment(override val layout: Int = R.layout.camera_fragment) : SuperFragment() {
+class CameraFragment(override val layout: Int = R.layout.camera_fragment) : BaseFragment() {
 
     val cameraWidth get() = resources.displayMetrics.widthPixels
     val cameraHeight get() = resources.displayMetrics.heightPixels

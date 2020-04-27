@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="TextInputLayout" parent="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
+        <item name="hintTextColor">?attr/colorOnSecondary</item>
+        <item name="android:textColorHint">?attr/colorOnSecondary</item>
+    </style>
+
+    <style name="TextInputEditText" parent="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:inputType">textCapSentences</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:imeOptions">actionNext</item>
+    </style>
+
+</resources>

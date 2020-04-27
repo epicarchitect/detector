@@ -8,9 +8,10 @@ import kolmachikhin.alexander.detector.ui.camera.CameraFragment
 import kolmachikhin.alexander.detector.analyse.bitmap.BitmapAnalyse
 import kolmachikhin.alexander.detector.analyse.bitmap.toBlackWhite
 import kotlinx.android.synthetic.main.finder_fragment.*
-import mini.SuperFragment
+import kolmachikhin.alexander.detector.ui.base.BaseFragment
+import kolmachikhin.alexander.detector.ui.extentions.dp
 
-class FinderFragment(override val layout: Int = R.layout.finder_fragment) : SuperFragment() {
+class FinderFragment(override val layout: Int = R.layout.finder_fragment) : BaseFragment() {
 
     val camera = CameraFragment()
 
@@ -20,7 +21,7 @@ class FinderFragment(override val layout: Int = R.layout.finder_fragment) : Supe
 
     override fun start() {
         scale = resources.displayMetrics.widthPixels / 120
-        cropWidth = activity.dp(50)
+        cropWidth = dp(50)
         cropHeight = resources.displayMetrics.heightPixels
 
         camera.startCamera()

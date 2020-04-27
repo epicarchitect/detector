@@ -1,3 +1,18 @@
 <resources>
+
     <string name="app_name">Detector</string>
+    <string name="tests">Тесты</string>
+    <string name="scanned_tests">Проверено</string>
+    <string name="print">Печать</string>
+    <string name="name">Название</string>
+    <string name="save">Сохранить</string>
+    <string name="cancel">Отмена</string>
+    <string name="delete">Удалить</string>
+    <string name="edit">Изменить</string>
+    <string name="add">Добавить</string>
+    <string name="current">Текущий</string>
+    <string name="student_name">ФИО студента</string>
+    <string name="download_blacks_to_phone">Загрузить бланк на телефон</string>
+    <string name="answers_black">Бланк ответов</string>
+
 </resources>
