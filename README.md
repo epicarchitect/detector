@@ -1,2 +1,3 @@
 # Detector
-Video demonstration: https://vk.com/video296337037_456239112
+Android application for recognizing answer forms. 
+Written without the use of third-party recognition libraries for educational purposes.
